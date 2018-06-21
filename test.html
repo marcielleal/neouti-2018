@@ -1,0 +1,30 @@
+<HTML>
+  <meta charset="utf-8">
+  <HEAD><TITLE>CE-Dashboard</TITLE>
+  </HEAD>
+  
+  <BODY id="hello">
+  <script>
+    var HttpClient = function() {
+      this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+              aCallback(anHttpRequest.responseText);
+        }
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+      }
+    }
+    function reloadIFrame() {
+      var client = new HttpClient();
+      client.get('http://localhost:8080/alarms.php', function(response) {
+          document.getElementById("hello").innerHTML=response;
+      });
+    }
+    window.setInterval("reloadIFrame();", 6000);
+
+  </script>
+
+  </BODY>
+</HTML>
